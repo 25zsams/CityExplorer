@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText pass;
     Button signIn;
     Button signUp;
+    Button guest;
     DatabaseReference firebase;
     FirebaseDatabase firebaseData;
 
@@ -32,10 +33,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        user = (EditText)findViewById(R.id.editText);
-        pass = (EditText)findViewById(R.id.editText2);
+        //user = (EditText)findViewById(R.id.editText);
+        //pass = (EditText)findViewById(R.id.editText2);
         signIn = (Button)findViewById(R.id.button2);
         signUp = (Button)findViewById(R.id.button3);
+        guest = (Button)findViewById(R.id.button4);
 
         firebase = FirebaseDatabase.getInstance().getReference("Accounts");
         firebaseData = FirebaseDatabase.getInstance();
@@ -43,6 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //signIn.setOnClickListener(this);
         //signUp.setOnClickListener(this);
         //firebase.addValueEventListener(this);
+        guest.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+
+                Intent createMarker = new Intent(MainActivity.this, CreateMapMarker.class);
+                startActivity(createMarker);
+            }
+        });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override

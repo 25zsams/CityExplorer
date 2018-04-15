@@ -69,7 +69,9 @@ public class LogIn extends AppCompatActivity {
                     String t = value.toString();
 
                     if(t.equals(checkPass)){
-                        Toast.makeText(getBaseContext(), "Logging in, need next page", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), "Logging in, need next page", Toast.LENGTH_LONG).show();
+                        Intent createMarker = new Intent(LogIn.this, CreateMapMarker.class);
+                        startActivity(createMarker);
                     }
                     else{
                         Toast.makeText(getBaseContext(), "Incorrect name or pass", Toast.LENGTH_LONG).show();
