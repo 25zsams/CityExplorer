@@ -11,13 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ValueEventListener {
+public class MainActivity extends AppCompatActivity {
 
     EditText user;
     EditText pass;
@@ -33,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //user = (EditText)findViewById(R.id.editText);
-        //pass = (EditText)findViewById(R.id.editText2);
         signIn = (Button)findViewById(R.id.button2);
         signUp = (Button)findViewById(R.id.button3);
         guest = (Button)findViewById(R.id.button4);
@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         firebase = FirebaseDatabase.getInstance().getReference("Accounts");
         firebaseData = FirebaseDatabase.getInstance();
 
-        //signIn.setOnClickListener(this);
-        //signUp.setOnClickListener(this);
-        //firebase.addValueEventListener(this);
         guest.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
 
@@ -69,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(signInPage);
             }
         });
-
+        //CurrentLocation testing = new CurrentLocation();
+        //FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
     }
 
     public void verifyLogIn(){
@@ -143,41 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
         temp.addListenerForSingleValueEvent(eventListener);
     }
-
-    public void addData(){
-        String userName = user.getText().toString().trim();
-        String passWord = pass.getText().toString().trim();
-
-        UserAccount newUser = new UserAccount(userName, passWord);
-        firebase.child(userName).setValue(newUser);
-        //LogInInformation logIn = new LogInInformation(userName, passWord);
-        //firebase.child(logIn.get1User1()).setValue(logIn);
-        //firebaseData.getReference().child(userName).setValue(newUser);
-        //firebase.push();
-    }
-
-    public void onClick(View view){
-        if(view == signIn){
-            addData();
-        }
-        if(view == signUp){
-            getData();
-        }
-    }
-
-    public void getData(){
-        String test = firebase.child("Named").toString();
-        Log.d("FirebaseTest", test );
-    }
-
-    public void onCancelled(DatabaseError databaseError){
-
-    }
-    public void onDataChange(DataSnapshot dataSnapShot){
-        Toast.makeText(this, "something changed", Toast.LENGTH_SHORT).show();
-    }
-
-
 
 
 

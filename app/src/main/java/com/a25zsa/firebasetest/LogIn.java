@@ -3,6 +3,7 @@ package com.a25zsa.firebasetest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -58,10 +59,14 @@ public class LogIn extends AppCompatActivity {
         final String checkPass = pass.getText().toString().trim();
         final DatabaseReference temp = firebase;
 
+        if(TextUtils.isEmpty(checkUser) || TextUtils.isEmpty(checkPass)){
+            Toast.makeText(this, "Missing Field", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("Firebase", "start onDataChange");
 
                 if (dataSnapshot.hasChild(checkUser)) {
                     Log.d("Firebase", "true");
@@ -79,7 +84,7 @@ public class LogIn extends AppCompatActivity {
 
 
                 } else {
-                    Log.d("Firebase", "start onDataChangeElse");
+
                     Toast.makeText(getBaseContext(), "Incorrect name or pass", Toast.LENGTH_LONG).show();
                 }
             }
