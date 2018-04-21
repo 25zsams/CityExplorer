@@ -76,6 +76,7 @@ public class LogIn extends AppCompatActivity {
                     if(t.equals(checkPass)){
                         //Toast.makeText(getBaseContext(), "Logging in, need next page", Toast.LENGTH_LONG).show();
                         Intent createMarker = new Intent(LogIn.this, CreateMapMarker.class);
+                        createMarker.putExtra("userName", checkUser);
                         startActivity(createMarker);
                     }
                     else{

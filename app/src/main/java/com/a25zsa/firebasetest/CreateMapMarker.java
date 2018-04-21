@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private String userName;
     boolean okToPlaceMarker;
     boolean okToViewMarker;
     Button placeMarker;
@@ -56,12 +58,18 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         viewMarker.setBackgroundColor(Color.WHITE);
         okToPlaceMarker = false;
         okToViewMarker = false;
+        userName = getIntent().getExtras().getString("userName");
         //viewMarker.setEnabled(false);
         firebase = FirebaseDatabase.getInstance().getReference("Marker");
 
         placeMarker.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 //okToPlaceMarker = okToPlaceMarker ? false: true;
+                if(userName.equals("")){
+                    Toast.makeText(getBaseContext(), "Must sign in to place marker", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(getBaseContext(), "Tap to place a marker.", Toast.LENGTH_LONG).show();
                 togglePlaceMarkerButton();
             }
         });
@@ -77,16 +85,20 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
 
     }
 
-    public void toggleViewMarkerButton(){
-        if(okToViewMarker){
+    public void toggleViewMarkerButton() {
+        if (okToViewMarker) {
             okToViewMarker = false;
             viewMarker.setBackgroundColor(Color.WHITE);
-        }
-        else{
+            mMap.clear();
+        } else {
             okToViewMarker = true;
             viewMarker.setBackgroundColor(Color.GREEN);
+            viewMarkers();
             //mMap.clear();
         }
+    }
+
+     public void viewMarkers(){
         final DatabaseReference directory = firebase;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -148,6 +160,19 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
                     togglePlaceMarkerButton();
                     pushMarkerToDatabase(latLng);
                 }
+            }
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Bundle bundle = new Bundle();
+                bundle.putString("latLng", pointToFirebaseFormat(marker.getPosition().latitude, marker.getPosition().longitude));
+                BottomSheet bottomSheet = new BottomSheet();
+                bottomSheet.setArguments(bundle);
+                bottomSheet.show(getSupportFragmentManager(), "");
+
+                return false;
             }
         });
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         signIn = (Button)findViewById(R.id.button2);
         signUp = (Button)findViewById(R.id.button3);
         guest = (Button)findViewById(R.id.button4);
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
 
                 Intent createMarker = new Intent(MainActivity.this, CreateMapMarker.class);
+                createMarker.putExtra("userName", "");
                 startActivity(createMarker);
             }
         });
