@@ -59,7 +59,6 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         okToPlaceMarker = false;
         okToViewMarker = false;
         userName = getIntent().getExtras().getString("userName");
-        //viewMarker.setEnabled(false);
         firebase = FirebaseDatabase.getInstance().getReference("Marker");
 
         placeMarker.setOnClickListener(new View.OnClickListener(){
@@ -106,7 +105,6 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
                 for(DataSnapshot postSnapShot: dataSnapshot.getChildren()){
                     Double lat = Double.parseDouble(postSnapShot.child("lat").getValue().toString());
                     Double lng = Double.parseDouble(postSnapShot.child("lng").getValue().toString());
-                    System.out.println(lat + " " + lng);
                     addMarker(lat, lng);
 
                 }
@@ -168,6 +166,7 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
             public boolean onMarkerClick(Marker marker) {
                 Bundle bundle = new Bundle();
                 bundle.putString("latLng", pointToFirebaseFormat(marker.getPosition().latitude, marker.getPosition().longitude));
+                bundle.putString("userName", userName);
                 BottomSheet bottomSheet = new BottomSheet();
                 bottomSheet.setArguments(bundle);
                 bottomSheet.show(getSupportFragmentManager(), "");
