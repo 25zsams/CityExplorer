@@ -2,6 +2,7 @@ package com.a25zsa.firebasetest;
 
 import android.*;
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,40 +15,33 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by 25zsa on 4/15/2018.
  */
 
-public class CurrentLocation extends ActivityCompat implements LocationListener {
+public class CurrentLocation extends ActivityCompat {
     LocationManager locationManager;
     LocationListener locationListener;
+    FusedLocationProviderClient client;
 
-
-    public CurrentLocation(){
-
+    public CurrentLocation(Activity atv){
+        requestPermission(atv);
+        client = LocationServices.getFusedLocationProviderClient(atv);
+//        client.getLastLocation().addOnSuccessListener(atv, new OnSuccessListener<Location>() {
+//            @Override
+//            public void onSuccess(Location location) {
+//
+//            }
+//        })
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-
+    private void requestPermission(Activity atv){
+        ActivityCompat.requestPermissions(atv, new String[] {ACCESS_FINE_LOCATION}, 1);
     }
 
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
 
 
 //    private FusedLocationProviderClient client;

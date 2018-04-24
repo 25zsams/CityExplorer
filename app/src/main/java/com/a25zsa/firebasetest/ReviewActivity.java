@@ -8,15 +8,20 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class ReviewActivity extends AppCompatActivity {
     Button rateButton;
     EditText commentBox;
     RatingBar ratingBar;
+    ListView commentList;
     FirebaseDataTransfer firebaseDataTransfer;
 
     @Override
@@ -39,6 +45,8 @@ public class ReviewActivity extends AppCompatActivity {
         rateButton = (Button)findViewById(R.id.rateButton);
         ratingBar = (RatingBar)findViewById(R.id.ratingBar);
         commentBox = (EditText)findViewById(R.id.commentBox);
+        commentList = (ListView)findViewById(R.id.commentList);
+
 
         getSupportActionBar().setTitle(" Review");
         if(getSupportActionBar() != null){
@@ -65,10 +73,18 @@ public class ReviewActivity extends AppCompatActivity {
                 else{
                     hideTypePad();
                     postComment();
+                    firebaseDataTransfer.databaseToCommentList(markerHashLocation, commentList, getBaseContext());
                 }
             }
         });
 
+        loadCommentList();
+        hideTypePad();
+
+    }
+
+    public void loadCommentList(){
+        firebaseDataTransfer.databaseToCommentList(markerHashLocation, commentList, getBaseContext());
     }
 
     public void hideTypePad(){
@@ -79,13 +95,13 @@ public class ReviewActivity extends AppCompatActivity {
         }
     }
 
-    public String getCommentFormat(){
+    public String createCommentFormat(){
         String timeStamp = new SimpleDateFormat("[MM/dd/yyyy]").format(Calendar.getInstance().getTime());
         return timeStamp + " " + userName + ": " + commentBox.getText().toString();
     }
 
     public void postComment(){
-        firebaseDataTransfer.pushCommentToFirebase(markerHashLocation, getCommentFormat());
+        firebaseDataTransfer.pushCommentToFirebase(markerHashLocation, createCommentFormat());
         Toast.makeText(getBaseContext(), "Your comment has been posted", Toast.LENGTH_LONG).show();
     }
 

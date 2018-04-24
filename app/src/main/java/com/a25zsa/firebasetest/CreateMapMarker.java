@@ -182,6 +182,7 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
 //            }
 //        });
         //zoomCurrentLocation();
+        //CurrentLocation c = new CurrentLocation(this);
     }
 
     public String pointToFirebaseFormat(Double lat, Double lng){
