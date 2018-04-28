@@ -43,7 +43,7 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
     DatabaseReference firebase;
     LatLng currentLocation;
     FusedLocationProviderClient client;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +52,8 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        placeMarker = (Button)findViewById(R.id.placeMarker);
-        viewMarker = (Button)findViewById(R.id.viewMarker);
+        placeMarker = (Button) findViewById(R.id.placeMarker);
+        viewMarker = (Button) findViewById(R.id.viewMarker);
         placeMarker.setBackgroundColor(Color.WHITE);
         viewMarker.setBackgroundColor(Color.WHITE);
         okToPlaceMarker = false;
@@ -61,10 +61,10 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         userName = getIntent().getExtras().getString("userName");
         firebase = FirebaseDatabase.getInstance().getReference("Marker");
 
-        placeMarker.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        placeMarker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 //okToPlaceMarker = okToPlaceMarker ? false: true;
-                if(userName.equals("")){
+                if (userName.equals("")) {
                     Toast.makeText(getBaseContext(), "Must sign in to place marker", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -73,13 +73,12 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
             }
         });
 
-        viewMarker.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        viewMarker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 //okToPlaceMarker = okToPlaceMarker ? false: true;
                 toggleViewMarkerButton();
             }
         });
-
 
 
     }
@@ -97,12 +96,12 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         }
     }
 
-     public void viewMarkers(){
+    public void viewMarkers() {
         final DatabaseReference directory = firebase;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapShot: dataSnapshot.getChildren()){
+                for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
                     Double lat = Double.parseDouble(postSnapShot.child("lat").getValue().toString());
                     Double lng = Double.parseDouble(postSnapShot.child("lng").getValue().toString());
                     addMarker(lat, lng);
@@ -119,23 +118,22 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         directory.addListenerForSingleValueEvent(eventListener);
     }
 
-    public void togglePlaceMarkerButton(){
-        if(okToPlaceMarker){
+    public void togglePlaceMarkerButton() {
+        if (okToPlaceMarker) {
             okToPlaceMarker = false;
             placeMarker.setBackgroundColor(Color.WHITE);
-        }
-        else{
+        } else {
             okToPlaceMarker = true;
             placeMarker.setBackgroundColor(Color.GREEN);
         }
     }
 
-    public void addMarker(Double lat, Double lng){
+    public void addMarker(Double lat, Double lng) {
         MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lng));
         mMap.addMarker(marker);
     }
 
-    public void addMarker(LatLng point){
+    public void addMarker(LatLng point) {
         MarkerOptions marker = new MarkerOptions().position(new LatLng(point.latitude, point.longitude));
         mMap.addMarker(marker);
     }
