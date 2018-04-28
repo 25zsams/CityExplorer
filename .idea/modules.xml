@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FirebaseTest.iml" filepath="$PROJECT_DIR$/FirebaseTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/cityExplorador.iml" filepath="$PROJECT_DIR$/.idea/cityExplorador.iml" />
     </modules>
   </component>
 </project>
