@@ -48,7 +48,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     RatingBar ratingBar;
     String markerHashLocation;
     String userName;
-    //something is not working.
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
         imageView = view.findViewById(R.id.imageView);
