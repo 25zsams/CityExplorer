@@ -18,8 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -44,10 +48,14 @@ public class BottomSheet extends BottomSheetDialogFragment {
     Button upload;
     Button descriptionButton;
     Button reviewButton;
+    Button favButton;
     TextView descriptionBox;
     RatingBar ratingBar;
     String markerHashLocation;
     String userName;
+
+    DatabaseReference firebase;
+    String latLng;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
@@ -55,6 +63,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
         upload = view.findViewById(R.id.uploadButton);
         descriptionButton = view.findViewById(R.id.descriptionButton);
         reviewButton = view.findViewById(R.id.reviewButton);
+        favButton = view.findViewById(R.id.favButton);
         descriptionBox = view.findViewById(R.id.descriptionBox);
         ratingBar = view.findViewById(R.id.ratingBar);
         imageTransfer = new FirebaseStorageTransfer();
@@ -64,6 +73,21 @@ public class BottomSheet extends BottomSheetDialogFragment {
         imageTransfer.storageImageToView(markerHashLocation, imageView);
         textTransfer.databaseToTextDescription(markerHashLocation, descriptionBox);
         textTransfer.databaseToRatingBar(markerHashLocation, ratingBar);
+
+        firebase = FirebaseDatabase.getInstance().getReference("Marker");
+        latLng = getIntent().getExtras().getString("latLng");
+
+        favButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view1){
+                if(userName.equals("")){
+                    Toast.makeText(getActivity(), "Must sign in to use this feature.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else{
+                    addFavoriteMarkerToDatabase(markerHashLocation);
+                }
+            }
+        });
 
         reviewButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -112,6 +136,31 @@ public class BottomSheet extends BottomSheetDialogFragment {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    public String pointToFirebaseFormat(Double lat, Double lng) {
+        String hashLocation = lat + " " + lng;
+        return hashLocation.replace(".", ",");
+    }
+
+    public void addFavoriteMarkerToDatabase(LatLng point) {
+        final Double lat = point.latitude;
+        final Double lng = point.longitude;
+        final String coordinate = pointToFirebaseFormat(lat, lng);
+        final DatabaseReference directory = firebase.child(coordinate);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                MarkerInformation newMarker = new MarkerInformation(lat, lng, coordinate);
+                directory.setValue(newMarker);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        directory.addListenerForSingleValueEvent(eventListener);
     }
 
     @Override

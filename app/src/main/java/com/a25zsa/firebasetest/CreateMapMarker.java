@@ -53,6 +53,7 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
     private boolean mLocationPermissionGranted = false;
     Button placeMarker;
     Button viewMarker;
+    Button viewFavorites;
     DatabaseReference firebase;
     LatLng currentLocation;
     private FusedLocationProviderClient mfusedLocationProviderClient;
@@ -68,8 +69,10 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
         placeMarker = (Button) findViewById(R.id.placeMarker);
         viewMarker = (Button) findViewById(R.id.viewMarker);
+        viewFavorites = (Button) findViewById(R.id.viewFavorites);
         placeMarker.setBackgroundColor(Color.WHITE);
         viewMarker.setBackgroundColor(Color.WHITE);
+        viewFavorites.setBackgroundColor(Color.WHITE);
         okToPlaceMarker = false;
         okToViewMarker = false;
         userName = getIntent().getExtras().getString("userName");
@@ -91,6 +94,15 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
             public void onClick(View view) {
                 //okToPlaceMarker = okToPlaceMarker ? false: true;
                 toggleViewMarkerButton();
+            }
+        });
+
+        viewFavorites.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Intent favs = new Intent(CreateMapMarker.this, ViewFavoritesScrollingActivity.class);
+                startActivity(favs);
             }
         });
 

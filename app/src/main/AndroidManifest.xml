@@ -48,7 +48,11 @@
             android:name=".CreateMapMarker"
             android:label="@string/title_activity_create_map_marker" />
         <activity android:name=".DescriptionActivity" />
-        <activity android:name=".ReviewActivity"></activity>
+        <activity android:name=".ReviewActivity" />
+        <activity
+            android:name=".ViewFavoritesScrollingActivity"
+            android:label="@string/title_activity_view_favorites_scrolling"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
