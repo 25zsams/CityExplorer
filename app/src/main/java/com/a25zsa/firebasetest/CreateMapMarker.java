@@ -2,8 +2,10 @@ package com.a25zsa.firebasetest;
 
 import android.*;
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -53,9 +55,12 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
     private boolean mLocationPermissionGranted = false;
     Button placeMarker;
     Button viewMarker;
+    Button logoutButton;
     DatabaseReference firebase;
     LatLng currentLocation;
     private FusedLocationProviderClient mfusedLocationProviderClient;
+
+    BroadcastReceiver b;
 
 
     @Override
@@ -68,8 +73,10 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
         placeMarker = (Button) findViewById(R.id.placeMarker);
         viewMarker = (Button) findViewById(R.id.viewMarker);
+        logoutButton = (Button) findViewById(R.id.logoutButton);
         placeMarker.setBackgroundColor(Color.WHITE);
         viewMarker.setBackgroundColor(Color.WHITE);
+        logoutButton.setBackgroundColor(Color.WHITE);
         okToPlaceMarker = false;
         okToViewMarker = false;
         userName = getIntent().getExtras().getString("userName");
@@ -94,7 +101,38 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
             }
         });
 
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                logout();
+            }
+        });
 
+
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.package.ACTION_LOGOUT");
+
+        b = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("onReceive","Logout in progress");
+                //At this point you should start the login activity and finish this one
+                Intent signInPage = new Intent(CreateMapMarker.this, LogIn.class);
+                startActivity(signInPage);
+                unregisterReceiver(b);
+                finish();
+            }
+        };
+        registerReceiver(b, intentFilter);
+
+
+    }
+
+    private void logout()
+    {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction("com.package.ACTION_LOGOUT");
+        sendBroadcast(broadcastIntent);
     }
 
     private void toggleViewMarkerButton() {
