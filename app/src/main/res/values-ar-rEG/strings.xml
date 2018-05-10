@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_login">دخول</string>
+    <string name="prompt_email">"البريد الالكتروني "</string>
+    <string name="prompt_password">"كلمة السر "</string>
+    <string name="action_sign_in">"دخول أو تسجيل "</string>
+    <string name="action_sign_in_short">تسجيل</string>
+    <string name="error_invalid_email">"البريد الالكتروني غير صحيح "</string>
+    <string name="error_invalid_password">"كلمة السر قصيرة "</string>
+    <string name="error_incorrect_password">"كلمة السر غير صحيحة "</string>
+    <string name="error_field_required">"إجباري "</string>
+    <string name="permission_rationale">"من فضلك أعط الأذن إلى الأسماء "</string>
+    <string name="title_activity_create_map_marker">"الخريطة "</string>
+</resources>
