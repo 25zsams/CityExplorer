@@ -4,9 +4,13 @@ import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
@@ -26,6 +30,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,26 +40,34 @@ import com.google.firebase.database.ValueEventListener;
 
 public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallback {
 
+    private static final String TAG = "MapActivity";
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final float DEFAULT_ZOOM = 15f;
+
     private GoogleMap mMap;
     private String userName;
     boolean okToPlaceMarker;
     boolean okToViewMarker;
+    private boolean mLocationPermissionGranted = false;
     Button placeMarker;
     Button viewMarker;
     DatabaseReference firebase;
     LatLng currentLocation;
-    FusedLocationProviderClient client;
-    
+    private FusedLocationProviderClient mfusedLocationProviderClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_map_marker);
+        getLocationPermission();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        placeMarker = (Button)findViewById(R.id.placeMarker);
-        viewMarker = (Button)findViewById(R.id.viewMarker);
+        placeMarker = (Button) findViewById(R.id.placeMarker);
+        viewMarker = (Button) findViewById(R.id.viewMarker);
         placeMarker.setBackgroundColor(Color.WHITE);
         viewMarker.setBackgroundColor(Color.WHITE);
         okToPlaceMarker = false;
@@ -61,10 +75,10 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         userName = getIntent().getExtras().getString("userName");
         firebase = FirebaseDatabase.getInstance().getReference("Marker");
 
-        placeMarker.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        placeMarker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 //okToPlaceMarker = okToPlaceMarker ? false: true;
-                if(userName.equals("")){
+                if (userName.equals("")) {
                     Toast.makeText(getBaseContext(), "Must sign in to place marker", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -73,18 +87,17 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
             }
         });
 
-        viewMarker.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        viewMarker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 //okToPlaceMarker = okToPlaceMarker ? false: true;
                 toggleViewMarkerButton();
             }
         });
 
 
-
     }
 
-    public void toggleViewMarkerButton() {
+    private void toggleViewMarkerButton() {
         if (okToViewMarker) {
             okToViewMarker = false;
             viewMarker.setBackgroundColor(Color.WHITE);
@@ -97,12 +110,12 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         }
     }
 
-     public void viewMarkers(){
+    private void viewMarkers() {
         final DatabaseReference directory = firebase;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapShot: dataSnapshot.getChildren()){
+                for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
                     Double lat = Double.parseDouble(postSnapShot.child("lat").getValue().toString());
                     Double lng = Double.parseDouble(postSnapShot.child("lng").getValue().toString());
                     addMarker(lat, lng);
@@ -119,26 +132,80 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         directory.addListenerForSingleValueEvent(eventListener);
     }
 
-    public void togglePlaceMarkerButton(){
-        if(okToPlaceMarker){
+    private void togglePlaceMarkerButton() {
+        if (okToPlaceMarker) {
             okToPlaceMarker = false;
             placeMarker.setBackgroundColor(Color.WHITE);
-        }
-        else{
+        } else {
             okToPlaceMarker = true;
             placeMarker.setBackgroundColor(Color.GREEN);
         }
     }
 
-    public void addMarker(Double lat, Double lng){
+    private void addMarker(Double lat, Double lng) {
         MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lng));
         mMap.addMarker(marker);
     }
 
-    public void addMarker(LatLng point){
+    private void addMarker(LatLng point) {
         MarkerOptions marker = new MarkerOptions().position(new LatLng(point.latitude, point.longitude));
         mMap.addMarker(marker);
     }
+
+    private void getLocationPermission() {
+        Log.d(TAG, "getLocationPermission: requesting location permission");
+        String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION};
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionGranted = true;
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+
+    private void getDeviceLocation() {
+        Log.d(TAG, "getDeviceLocation: getting device location");
+
+        mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        try {
+            if (mLocationPermissionGranted) {
+                final Task location = mfusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+
+
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: found location!");
+                            Location currentLocation = (Location) task.getResult();
+
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                    DEFAULT_ZOOM);
+
+                        } else {
+                            Log.d(TAG, "onComplete: current location is null");
+                            Toast.makeText(CreateMapMarker.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            Log.d(TAG, "Security Exception " + e.getMessage());
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom) {
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -148,12 +215,24 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         addMarker(37.0, -122.0);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Random"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 20f));
+        //mMap.currentLocation();
+        if (mLocationPermissionGranted) {
+            getDeviceLocation();
 
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                if(okToPlaceMarker){
+                if (okToPlaceMarker) {
                     addMarker(latLng);
                     togglePlaceMarkerButton();
                     pushMarkerToDatabase(latLng);
@@ -174,23 +253,15 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
                 return false;
             }
         });
-
-//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//            @Override
-//            public boolean onMarkerClick(Marker marker) {
-//                return false;
-//            }
-//        });
-        //zoomCurrentLocation();
-        //CurrentLocation c = new CurrentLocation(this);
     }
 
-    public String pointToFirebaseFormat(Double lat, Double lng){
+
+    public String pointToFirebaseFormat(Double lat, Double lng) {
         String hashLocation = lat + " " + lng;
         return hashLocation.replace(".", ",");
     }
 
-    public void pushMarkerToDatabase(LatLng point){
+    public void pushMarkerToDatabase(LatLng point) {
         final Double lat = point.latitude;
         final Double lng = point.longitude;
         final String coordinate = pointToFirebaseFormat(lat, lng);
@@ -209,26 +280,5 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         };
         directory.addListenerForSingleValueEvent(eventListener);
     }
-
-    public void zoomCurrentLocation(){
-        System.out.println(1);
-        client = LocationServices.getFusedLocationProviderClient(this);
-        if(ActivityCompat.checkSelfPermission(CreateMapMarker.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_DENIED){
-            currentLocation = new LatLng(0, 0);
-        }
-        System.out.println(2);
-
-        client.getLastLocation().addOnSuccessListener(CreateMapMarker.this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if(location != null){
-                    System.out.println(3);
-                    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                }
-            }
-        });
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 18f));
-    }
-
 
 }
