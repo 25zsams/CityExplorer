@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_login">Iscriviti</string>
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Password (opzionale)</string>
+    <string name="action_sign_in">Accedi o registrati</string>
+    <string name="action_sign_in_short">registrati</string>
+    <string name="error_invalid_email">Questo indirizzo email non è valido</string>
+    <string name="error_invalid_password">Questa password è troppo corta</string>
+    <string name="error_incorrect_password">Questa password non è corretta</string>
+    <string name="error_field_required">Questo campo è obbligatorio</string>
+    <string name="permission_rationale">Le autorizzazioni dei contatti sono necessarie per fornire i completamenti email.</string>
+    <string name="title_activity_create_map_marker">carta geografica</string>
+    <string name="back_button">indietro</string>
+    <string name="explore">Esplorare</string>
+    <string name="Enter_your_user_name">Inserisci il tuo nome utente</string>
+    <string name="Enter_your_password">Inserisci la tua password</string>
+    <string name="Confirm_your_password">Conferma la tua password</string>
+    <string name="Guest">ospite</string>
+    <string name="Sign_UP_Now">Iscriviti ora!</string>
+    <string name="post_comment">Posta un commento</string>
+    <string name="Rate">Vota</string>
+    <string name="Place_marker">Segnaposto</string>
+    <string name="Confirm">Confirmar</string>
+    <string name="go_to_review">Vai a recensire</string>
+    <string name="change_description">Cambiar descripción</string>
+    <string name="upload_pic">Carica l\'immagine</string>
+</resources>

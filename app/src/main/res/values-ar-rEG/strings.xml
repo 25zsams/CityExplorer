@@ -11,4 +11,18 @@
     <string name="error_field_required">"إجباري "</string>
     <string name="permission_rationale">"من فضلك أعط الأذن إلى الأسماء "</string>
     <string name="title_activity_create_map_marker">"الخريطة "</string>
+    <string name="back_button">عودة</string>
+    <string name="explore">إكتشف</string>
+    <string name="Enter_your_user_name">"إدخل إسم المستخدم "</string>
+    <string name="Enter_your_password">"إدخل كلمات السر  "</string>
+    <string name="Confirm_your_password">"أكد كلمات السر "</string>
+    <string name="Guest">"ضيف "</string>
+    <string name="Sign_UP_Now">"سجل ألان "</string>
+    <string name="post_comment">"أنشر تعليقك "</string>
+    <string name="Rate">رتب</string>
+    <string name="Place_marker">"أضف علامة "</string>
+    <string name="Confirm">تأكيد</string>
+    <string name="go_to_review">"إذهب إلي التقييم "</string>
+    <string name="change_description">غير الوصف</string>
+    <string name="upload_pic">أضف صورة</string>
 </resources>

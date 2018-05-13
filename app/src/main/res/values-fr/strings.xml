@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_login">S\'inscrire</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Mot de passe (facultatif)</string>
+    <string name="action_sign_in">Connexion ou Inscription</string>
+    <string name="action_sign_in_short">se connecter</string>
+    <string name="error_invalid_email">Cette adresse e-mail est invalide</string>
+    <string name="error_invalid_password">Ce mot de passe est trop court</string>
+    <string name="error_incorrect_password">Ce mot de passe est incorrect</string>
+    <string name="error_field_required">Ce champ est requis</string>
+    <string name="permission_rationale">Les autorisations de contacts sont nécessaires pour fournir des complétions de courrier électronique.</string>
+    <string name="title_activity_create_map_marker">carte</string>
+    <string name="back_button">arrière</string>
+    <string name="explore">Esplorer</string>
+    <string name="Enter_your_user_name">Entrez votre nom d\'utilisateur</string>
+    <string name="Enter_your_password">Tapez votre mot de passe</string>
+    <string name="Confirm_your_password">Confirmer votre mot de passe</string>
+    <string name="Guest">Client</string>
+    <string name="Sign_UP_Now">S\'inscrire maintenant!</string>
+    <string name="post_comment">Poster un commentaire</string>
+    <string name="Rate">Taux</string>
+    <string name="Place_marker">Marqueur de lieu</string>
+    <string name="Confirm">Confirmer</string>
+    <string name="go_to_review">Aller à la revue</string>
+    <string name="change_description">Changer la description</string>
+    <string name="upload_pic">Charger une photo</string>
+</resources>

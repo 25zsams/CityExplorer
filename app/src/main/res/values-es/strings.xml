@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_login">Regístrate</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Contraseña (opcional)</string>
+    <string name="action_sign_in">Ingresa o Registro</string>
+    <string name="action_sign_in_short">Registrarse</string>
+    <string name="error_invalid_email">Esta dirección de correo electrónico no es válida</string>
+    <string name="error_invalid_password">Esta contraseña es muy corta</string>
+    <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
+    <string name="error_field_required">este campo es requerido</string>
+    <string name="permission_rationale">Se requieren permisos de contactos para completar el correo electrónico.</string>
+    <string name="title_activity_create_map_marker">mapa</string>
+    <string name="back_button">espalda</string>
+    <string name="explore">Explorar</string>
+    <string name="Enter_your_user_name">Ingrese su nombre de usuario</string>
+    <string name="Enter_your_password">Ingresa tu contraseña</string>
+    <string name="Confirm_your_password">Confirmar la contraseña</string>
+    <string name="Guest">Huésped</string>
+    <string name="Sign_UP_Now">¡Regístrate ahora!</string>
+    <string name="post_comment">publicar comentario</string>
+    <string name="Rate">Tarifa</string>
+    <string name="Place_marker">Marcador de lugar</string>
+    <string name="Confirm">Confirmar</string>
+    <string name="go_to_review">Ir a revisión</string>
+    <string name="change_description">Cambia descrizione</string>
+    <string name="upload_pic">Subir foto</string>
+</resources>
