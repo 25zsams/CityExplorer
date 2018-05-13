@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class FirebaseDataTransfer extends AppCompatActivity {
 
     DatabaseReference firebase;
+    int imageNumber = 0;
     public FirebaseDataTransfer(){
         firebase = FirebaseDatabase.getInstance().getReference();
     }
@@ -116,6 +117,5 @@ public class FirebaseDataTransfer extends AppCompatActivity {
         DatabaseReference commentDirectory = firebase.child("Comments").child(latLng);
         commentDirectory.push().setValue(comment);
     }
-
 
 }
