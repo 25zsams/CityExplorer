@@ -1,12 +1,14 @@
 package com.a25zsa.firebasetest;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -41,6 +44,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
     FirebaseDataTransfer textTransfer;
 
     ImageView imageView;
+    ViewPager viewPager;
     Button upload;
     Button descriptionButton;
     Button reviewButton;
@@ -51,7 +55,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
-        imageView = view.findViewById(R.id.imageView);
+        //imageView = view.findViewById(R.id.imageView);
+        viewPager = view.findViewById(R.id.viewPager);
         upload = view.findViewById(R.id.uploadButton);
         descriptionButton = view.findViewById(R.id.descriptionButton);
         reviewButton = view.findViewById(R.id.reviewButton);
@@ -61,7 +66,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
         textTransfer = new FirebaseDataTransfer();
         markerHashLocation = getArguments().getString("latLng");
         userName = getArguments().getString("userName");
-        imageTransfer.storageImageToView(markerHashLocation, imageView);
+        //imageTransfer.storageImageToView(markerHashLocation, imageView);
+        imageTransfer.storageImageToViewPager(markerHashLocation, viewPager, getContext());
         textTransfer.databaseToTextDescription(markerHashLocation, descriptionBox);
         textTransfer.databaseToRatingBar(markerHashLocation, ratingBar);
 
@@ -100,7 +106,16 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 }
             }
         });
+
+        if(userName.equals("")){
+            guestRestriction();
+        }
         return view;
+    }
+
+    public void guestRestriction(){
+        descriptionButton.setVisibility(View.INVISIBLE);
+        upload.setVisibility(View.INVISIBLE);
     }
 
     public void testing(){
@@ -120,7 +135,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             Uri pickImage = data.getData();
             imageTransfer.uploadImage(pickImage, markerHashLocation);
-            imageView.setImageURI(pickImage);
+            //imageView.setImageURI(pickImage);
+            this.dismiss();
 
         }
     }

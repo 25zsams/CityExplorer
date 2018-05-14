@@ -4,6 +4,9 @@ import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Camera;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -11,13 +14,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,7 +32,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +39,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallback {
 
@@ -52,7 +56,8 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
     boolean okToViewMarker;
     private boolean mLocationPermissionGranted = false;
     Button placeMarker;
-    Button viewMarker;
+    //Button viewMarker;
+    Button searchButton;
     DatabaseReference firebase;
     LatLng currentLocation;
     private FusedLocationProviderClient mfusedLocationProviderClient;
@@ -66,14 +71,26 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        searchButton = (Button) findViewById(R.id.search_button);
         placeMarker = (Button) findViewById(R.id.placeMarker);
-        viewMarker = (Button) findViewById(R.id.viewMarker);
+        //viewMarker = (Button) findViewById(R.id.viewMarker);
         placeMarker.setBackgroundColor(Color.WHITE);
-        viewMarker.setBackgroundColor(Color.WHITE);
+        //viewMarker.setBackgroundColor(Color.WHITE);
+
         okToPlaceMarker = false;
         okToViewMarker = false;
         userName = getIntent().getExtras().getString("userName");
         firebase = FirebaseDatabase.getInstance().getReference("Marker");
+
+        searchButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                onSearch(this);
+
+            }
+        });
+
+
 
         placeMarker.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -87,17 +104,42 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
             }
         });
 
-        viewMarker.setOnClickListener(new View.OnClickListener() {
+        /*viewMarker.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //okToPlaceMarker = okToPlaceMarker ? false: true;
                 toggleViewMarkerButton();
             }
-        });
+        });*/
 
 
     }
+    private void onSearch(View.OnClickListener view){
+        EditText location_tosearch  = (EditText)findViewById(R.id.Address_text);
+        String location = location_tosearch.getText().toString();
+        List<Address> addressList = null;
+        if (location != null || !location.equals("") ) {
+            Geocoder geocoder = new Geocoder(this);
+            try{
+                addressList = geocoder.getFromLocationName(location, 1);
 
-    private void toggleViewMarkerButton() {
+                Address address = addressList.get(0);
+                LatLng latLong = new LatLng(address.getLatitude(), address.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(latLong).title(location));
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLong));
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchButton.getWindowToken(),
+                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    /*private void toggleViewMarkerButton() {
         if (okToViewMarker) {
             okToViewMarker = false;
             viewMarker.setBackgroundColor(Color.WHITE);
@@ -108,7 +150,7 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
             viewMarkers();
             //mMap.clear();
         }
-    }
+    }*/
 
     private void viewMarkers() {
         final DatabaseReference directory = firebase;
@@ -210,12 +252,7 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        LatLng sydney = new LatLng(37, -122);
-        addMarker(37.0, -122.0);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Random"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 20f));
-        //mMap.currentLocation();
+        viewMarkers();
         if (mLocationPermissionGranted) {
             getDeviceLocation();
 
@@ -253,6 +290,7 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
                 return false;
             }
         });
+        //viewMarkers();
     }
 
 

@@ -6,7 +6,8 @@
     android:orientation="vertical">
 
 
-    <Button
+
+    <!--<Button
         android:id="@+id/viewMarker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +16,7 @@
         android:layout_marginStart="40dp"
         android:elevation="0dp"
         android:text="View Marker" />
+    -->
 
     <Button
         android:id="@+id/placeMarker"
@@ -31,7 +33,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/placeMarker"
+        android:layout_marginTop="50dp"
         tools:context="com.a25zsa.firebasetest.CreateMapMarker" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/placeMarker"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/Address_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:text="Enter a location or address here" />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search" />
+    </LinearLayout>
 
 </RelativeLayout>
