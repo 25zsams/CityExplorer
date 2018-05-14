@@ -14,7 +14,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@android:drawable/presence_video_online">
+            android:background="@mipmap/no_image_available">
 
 
             <android.support.v4.view.ViewPager
@@ -58,7 +58,7 @@
                 android:background="#d0ede2e2"
                 android:editable="true"
                 android:fontFamily="cursive"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
+
                 android:scrollbars="vertical"
                 android:shadowColor="@android:color/holo_red_dark"
                 android:text="Description..."
@@ -72,7 +72,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
                 tools:background="?attr/colorButtonNormal"
-                tools:padding="@dimen/activity_vertical_margin" />
+
+            />
+            <!--tools:padding="@dimen/activity_vertical_margin" android:paddingLeft="@dimen/activity_horizontal_margin"-->
         </RelativeLayout>
 
         <LinearLayout

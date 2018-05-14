@@ -15,4 +15,5 @@
         completions."
     </string>
     <string name="title_activity_create_map_marker">Map</string>
+    <string name="title_activity_login_pop_up">LoginPopUp</string>
 </resources>
