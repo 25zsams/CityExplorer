@@ -1,9 +1,6 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.BottomSheetComponent;
 
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,22 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.UUID;
+import com.a25zsa.firebasetest.Firebase.FirebaseDataTransfer;
+import com.a25zsa.firebasetest.Firebase.FirebaseStorageTransfer;
+import com.a25zsa.firebasetest.R;
+import com.a25zsa.firebasetest.UserReviews.ReviewActivity;
 
 import static android.app.Activity.RESULT_OK;
 

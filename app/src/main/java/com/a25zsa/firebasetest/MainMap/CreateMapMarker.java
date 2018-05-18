@@ -1,10 +1,7 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.MainMap;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Camera;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.annotation.NonNull;
@@ -23,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.a25zsa.firebasetest.BottomSheetComponent.BottomSheet;
+import com.a25zsa.firebasetest.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;

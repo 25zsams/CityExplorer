@@ -1,4 +1,4 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.Firebase;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;

@@ -1,4 +1,4 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.MainMap;
 
 /**
  * Created by 25zsa on 4/15/2018.

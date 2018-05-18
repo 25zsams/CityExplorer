@@ -1,4 +1,4 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.BottomSheetComponent;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.a25zsa.firebasetest.MainMap.CreateMapMarker;
+import com.a25zsa.firebasetest.Firebase.FirebaseDataTransfer;
+import com.a25zsa.firebasetest.R;
 
 public class DescriptionActivity extends AppCompatActivity {
 

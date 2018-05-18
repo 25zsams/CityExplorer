@@ -1,4 +1,4 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.GateKeeping;
 
 /**
  * Created by 25zsa on 4/11/2018.

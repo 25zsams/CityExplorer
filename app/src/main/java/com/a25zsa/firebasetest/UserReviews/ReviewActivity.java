@@ -1,27 +1,22 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.UserReviews;
 
 import android.content.Context;
-import android.drm.DrmStore;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
-import com.google.firebase.database.FirebaseDatabase;
+import com.a25zsa.firebasetest.Firebase.FirebaseDataTransfer;
+import com.a25zsa.firebasetest.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
 

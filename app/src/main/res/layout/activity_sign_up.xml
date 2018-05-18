@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.a25zsa.firebasetest.SignUp">
+    tools:context="com.a25zsa.firebasetest.GateKeeping.SignUp">
 
     <EditText
         android:id="@+id/userName"

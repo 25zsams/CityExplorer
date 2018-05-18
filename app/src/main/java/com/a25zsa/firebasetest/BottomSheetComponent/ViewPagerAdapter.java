@@ -1,4 +1,4 @@
-package com.a25zsa.firebasetest;
+package com.a25zsa.firebasetest.BottomSheetComponent;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
