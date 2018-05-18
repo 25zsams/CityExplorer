@@ -55,7 +55,7 @@ public class LogIn extends AppCompatActivity {
     }
 
 
-    public void verifyLogIn(){
+    private void verifyLogIn(){
         Log.d("Firebase", "start verifyLogIn");
         final String checkUser = user.getText().toString().trim();
         final String checkPass = pass.getText().toString().trim();

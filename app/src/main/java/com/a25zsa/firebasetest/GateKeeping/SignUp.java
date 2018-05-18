@@ -55,7 +55,7 @@ public class SignUp extends AppCompatActivity {
     }
 
 
-    public void verifiyNewUser(){
+    private void verifiyNewUser(){
         final String checkUser = user.getText().toString().trim();
         final String checkPass = pass.getText().toString().trim();
         final String checkConfirmPass = confirmPass.getText().toString().trim();

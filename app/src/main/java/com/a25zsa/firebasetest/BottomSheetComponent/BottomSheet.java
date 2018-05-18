@@ -104,16 +104,12 @@ public class BottomSheet extends BottomSheetDialogFragment {
         return view;
     }
 
-    public void guestRestriction(){
+    private void guestRestriction(){
         descriptionButton.setVisibility(View.INVISIBLE);
         upload.setVisibility(View.INVISIBLE);
     }
 
-    public void testing(){
-        descriptionBox.setText("Testing. this is hard. it is taking me forever, but i think i got something working.");
-    }
-
-    public void openFileChooser(){
+    private void openFileChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);

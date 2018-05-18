@@ -48,13 +48,13 @@ public class DescriptionActivity extends AppCompatActivity {
 
     }
 
-    public void goBackToMapPage(){
+    private void goBackToMapPage(){
         Intent createMarker = new Intent(DescriptionActivity.this, CreateMapMarker.class);
         createMarker.putExtra("userName", userName);
         startActivity(createMarker);
     }
 
-    public void setConfirmDescription(){
+    private void setConfirmDescription(){
         FirebaseDataTransfer pushData = new FirebaseDataTransfer();
         pushData.pushDescriptionToFirebase(markerHashLocation, descriptionEditBox.getText().toString());
         Toast.makeText(this, "Your description is now display in the front marker page!", Toast.LENGTH_LONG).show();

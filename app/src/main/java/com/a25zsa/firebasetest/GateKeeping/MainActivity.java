@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         //FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
     }
 
-    public void verifyLogIn(){
+    private void verifyLogIn(){
         Log.d("Firebase", "start verifyLogIn");
         final String checkUser = user.getText().toString().trim();
         final String checkPass = pass.getText().toString().trim();
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Firebase", "start LogInEnd");
     }
 
-    public void verifiyNewUser(){
+    private void verifiyNewUser(){
         final String checkUser = user.getText().toString().trim();
         final String checkPass = pass.getText().toString().trim();
 

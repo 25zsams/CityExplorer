@@ -78,11 +78,11 @@ public class ReviewActivity extends AppCompatActivity {
 
     }
 
-    public void loadCommentList(){
+    private void loadCommentList(){
         firebaseDataTransfer.databaseToCommentList(markerHashLocation, commentList, getBaseContext());
     }
 
-    public void hideTypePad(){
+    private void hideTypePad(){
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -90,17 +90,17 @@ public class ReviewActivity extends AppCompatActivity {
         }
     }
 
-    public String createCommentFormat(){
+    private String createCommentFormat(){
         String timeStamp = new SimpleDateFormat("[MM/dd/yyyy]").format(Calendar.getInstance().getTime());
         return timeStamp + " " + userName + ": " + commentBox.getText().toString();
     }
 
-    public void postComment(){
+    private void postComment(){
         firebaseDataTransfer.pushCommentToFirebase(markerHashLocation, createCommentFormat());
         Toast.makeText(getBaseContext(), "Your comment has been posted", Toast.LENGTH_LONG).show();
     }
 
-    public void submitRatings(){
+    private void submitRatings(){
         firebaseDataTransfer.pushRatingToFirebase(markerHashLocation, userName, ratingBar.getRating());
         Toast.makeText(getBaseContext(), "Your rating has been updated", Toast.LENGTH_LONG).show();
     }
