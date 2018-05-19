@@ -27,32 +27,62 @@ import java.util.UUID;
  * Created by 25zsa on 4/19/2018.
  */
 
+/**
+ * this class takes care of image transfers
+ */
 public class FirebaseStorageTransfer extends AppCompatActivity {
     private Uri mImageUri;
     private StorageReference firebaseStorage;
 
+    /**
+     * Instantiates a new Firebase storage transfer.
+     */
     public FirebaseStorageTransfer(){
         firebaseStorage = FirebaseStorage.getInstance().getReference("Image");
 
     }
 
+    /**
+     * Get file extension string.
+     *
+     * @param uri the uri
+     * @return the file extension string
+     */
     public String getFileExtension(Uri uri){
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    /**
+     * Upload image.
+     *
+     * @param imageToUpload       the image to upload
+     * @param imageLocationFolder the image location folder
+     */
     public void uploadImage(Uri imageToUpload, String imageLocationFolder){
         String imageHashTag = UUID.randomUUID().toString();
         firebaseStorage.child(imageLocationFolder).child(imageHashTag).putFile(imageToUpload);
         pushUriOnDatabase(imageLocationFolder, imageHashTag);
     }
 
+    /**
+     * Push uri on database.
+     *
+     * @param imageLocationFolder the image location folder
+     * @param imageHashTag        the image hash tag
+     */
     public void pushUriOnDatabase(final String imageLocationFolder, final String imageHashTag){
         DatabaseReference firebase = FirebaseDatabase.getInstance().getReference("Image").child(imageLocationFolder);
         firebase.push().setValue(imageHashTag);
     }
 
+    /**
+     * Storage image to view.
+     *
+     * @param markerHashLocation the marker hash location
+     * @param imageView          the image view
+     */
     public void storageImageToView(String markerHashLocation, final ImageView imageView){
         Task<Uri> downloadUrl = firebaseStorage.child(markerHashLocation).getDownloadUrl();
         downloadUrl.addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -64,6 +94,13 @@ public class FirebaseStorageTransfer extends AppCompatActivity {
         });
     }
 
+    /**
+     * Storage image to view pager.
+     *
+     * @param markerHashLocation the marker hash location
+     * @param viewPager          Layout manager that allows the user to flip left and right through pages of data
+     * @param context            Interface to global information about an application environment
+     */
     public void storageImageToViewPager(final String markerHashLocation, final ViewPager viewPager, final Context context){
         DatabaseReference imageDirectory = FirebaseDatabase.getInstance().getReference("Image/" + markerHashLocation);
         ValueEventListener eventListener = new ValueEventListener() {

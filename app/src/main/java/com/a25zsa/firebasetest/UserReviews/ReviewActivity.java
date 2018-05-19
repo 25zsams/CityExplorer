@@ -18,17 +18,49 @@ import com.a25zsa.firebasetest.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * The Review activity.
+ */
 public class ReviewActivity extends AppCompatActivity {
 
+    /**
+     * The User name.
+     */
     String userName;
+    /**
+     * The Marker hash location.
+     */
     String markerHashLocation;
+    /**
+     * The Comment button.
+     */
     Button commentButton;
+    /**
+     * The Rate button.
+     */
     Button rateButton;
+    /**
+     * The Comment box.
+     */
     EditText commentBox;
+    /**
+     * The Rating bar.
+     */
     RatingBar ratingBar;
+    /**
+     * The Comment list.
+     */
     ListView commentList;
+    /**
+     * a reference to firebasedatatransfer
+     */
     FirebaseDataTransfer firebaseDataTransfer;
 
+
+    /**
+     * Called when the activity is starting
+     * @param savedInstanceState contains the data it most recently supplied in onSaveInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +137,11 @@ public class ReviewActivity extends AppCompatActivity {
         Toast.makeText(getBaseContext(), "Your rating has been updated", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected
+     * @param item The menu item that was selected
+     * @return Return false to allow normal menu processing to proceed, true to consume it here.
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         System.out.println("testing in onOptionItemSelected");
         if(item.getItemId() == android.R.id.home){

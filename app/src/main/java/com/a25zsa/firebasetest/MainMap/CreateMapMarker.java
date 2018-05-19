@@ -41,6 +41,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+/**
+ * this class takes care of creating map markers
+ */
 public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapActivity";
@@ -51,17 +54,38 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
 
     private GoogleMap mMap;
     private String userName;
+    /**
+     * boolean check to place marker
+     */
     boolean okToPlaceMarker;
+    /**
+     * boolean check to view marker
+     */
     boolean okToViewMarker;
     private boolean mLocationPermissionGranted = false;
+    /**
+     * The Place marker button
+     */
     Button placeMarker;
-    //Button viewMarker;
+    /**
+     * The Search button.
+     */
+//Button viewMarker;
     Button searchButton;
+    /**
+     * The Firebase database reference
+     */
     DatabaseReference firebase;
+    /**
+     * The Current location latitude and longitude
+     */
     LatLng currentLocation;
     private FusedLocationProviderClient mfusedLocationProviderClient;
 
-
+    /**
+     * Called when the activity is starting
+     * @param savedInstanceState contains the data it most recently supplied in onSaveInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,7 +271,10 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
-
+    /**
+     * this method is called when the map is ready
+     * @param googleMap reference to the google map
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -293,11 +320,23 @@ public class CreateMapMarker extends FragmentActivity implements OnMapReadyCallb
     }
 
 
+    /**
+     * converts the latitude and longitude to the firebase format
+     *
+     * @param lat the latitude
+     * @param lng the longitude
+     * @return the string
+     */
     public String pointToFirebaseFormat(Double lat, Double lng) {
         String hashLocation = lat + " " + lng;
         return hashLocation.replace(".", ",");
     }
 
+    /**
+     * Push marker to database.
+     *
+     * @param point the latitude and longitude
+     */
     public void pushMarkerToDatabase(LatLng point) {
         final Double lat = point.latitude;
         final Double lng = point.longitude;

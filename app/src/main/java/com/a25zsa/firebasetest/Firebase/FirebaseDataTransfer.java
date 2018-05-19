@@ -19,20 +19,46 @@ import java.util.ArrayList;
  * Created by 25zsa on 4/21/2018.
  */
 
+/**
+ *this class takes care of writing data into the database, and reading data from the database
+ */
 public class FirebaseDataTransfer extends AppCompatActivity {
 
+    /**
+     * The Firebase database reference.
+     */
     DatabaseReference firebase;
+    /**
+     * The Image number.
+     */
     int imageNumber = 0;
+
+    /**
+     * Instantiates a new Firebase data transfer.
+     */
     public FirebaseDataTransfer(){
         firebase = FirebaseDatabase.getInstance().getReference();
     }
 
+    /**
+     * Push description to firebase database
+     *
+     * @param latLng      the latitude and longitude
+     * @param description the description
+     */
     public void pushDescriptionToFirebase(String latLng, String description){
         DatabaseReference descriptionDir = firebase.child("Description").child(latLng);
         descriptionDir.setValue(description);
     }
 
 
+    /**
+     * Database to comment list.
+     *
+     * @param latLng      the latitude and longitude
+     * @param commentList the comment list
+     * @param context     Interface to global information about an application environment
+     */
     public void databaseToCommentList(final String latLng, final ListView commentList, final Context context){
         final DatabaseReference directory = firebase.child("Comments");
         final String targetLocation = latLng;
@@ -61,6 +87,12 @@ public class FirebaseDataTransfer extends AppCompatActivity {
         directory.addListenerForSingleValueEvent(eventListener);
     }
 
+    /**
+     * Database to rating bar.
+     *
+     * @param latLng    the latitude and longitude
+     * @param ratingBar the rating bar
+     */
     public void databaseToRatingBar(String latLng, final RatingBar ratingBar){
         final DatabaseReference directory = firebase.child("Rating");
         final String targetLocation = latLng;
@@ -86,6 +118,12 @@ public class FirebaseDataTransfer extends AppCompatActivity {
         directory.addListenerForSingleValueEvent(eventListener);
     }
 
+    /**
+     * Database to text description.
+     *
+     * @param latLng   the latitude and longitude
+     * @param textView the text view
+     */
     public void databaseToTextDescription(String latLng, final TextView textView){
         final DatabaseReference directory = firebase.child("Description");
         final String targetLocation = latLng;
@@ -108,11 +146,24 @@ public class FirebaseDataTransfer extends AppCompatActivity {
         directory.addListenerForSingleValueEvent(eventListener);
     }
 
+    /**
+     * Push rating to firebase database
+     *
+     * @param latLng   the latitude and longitude
+     * @param userName the user name
+     * @param rating   the rating
+     */
     public void pushRatingToFirebase(String latLng, String userName, float rating){
         DatabaseReference ratingDirectory = firebase.child("Rating").child(latLng).child(userName);
         ratingDirectory.setValue(rating);
     }
 
+    /**
+     * Push comment to firebase database
+     *
+     * @param latLng  the latitude and longitutde
+     * @param comment the comment
+     */
     public void pushCommentToFirebase(String latLng, String comment){
         DatabaseReference commentDirectory = firebase.child("Comments").child(latLng);
         commentDirectory.push().setValue(comment);

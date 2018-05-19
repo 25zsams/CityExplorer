@@ -23,27 +23,72 @@ import com.a25zsa.firebasetest.UserReviews.ReviewActivity;
 
 import static android.app.Activity.RESULT_OK;
 
+
 /**
  * Created by 25zsa on 4/17/2018.
+ */
+
+/**
+ * A bottom sheet is a component that slides up from bottom of the screen to reveal more content
  */
 
 public class BottomSheet extends BottomSheetDialogFragment {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
+    /**
+     * The Image transfer.
+     */
     FirebaseStorageTransfer imageTransfer;
+    /**
+     * The Text transfer.
+     */
     FirebaseDataTransfer textTransfer;
 
+    /**
+     * The Image view.
+     */
     ImageView imageView;
+    /**
+     * The View pager.
+     */
     ViewPager viewPager;
+    /**
+     * The Upload.
+     */
     Button upload;
+    /**
+     * The Description button.
+     */
     Button descriptionButton;
+    /**
+     * The Review button.
+     */
     Button reviewButton;
+    /**
+     * The Description box.
+     */
     TextView descriptionBox;
+    /**
+     * The Rating bar.
+     */
     RatingBar ratingBar;
+    /**
+     * The Marker hash location.
+     */
     String markerHashLocation;
+    /**
+     * The User name.
+     */
     String userName;
 
+    /**
+     * Called to have the fragment instantiate its user interface view
+     * @param inflater Instantiates a layout XML file into its corresponding View objects
+     * @param container this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState this fragment is being re-constructed from a previous saved state
+     * @return Return the View for the fragment's UI
+     */
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
         //imageView = view.findViewById(R.id.imageView);
@@ -104,11 +149,17 @@ public class BottomSheet extends BottomSheetDialogFragment {
         return view;
     }
 
+    /**
+     * sets the guest restriction
+     */
     private void guestRestriction(){
         descriptionButton.setVisibility(View.INVISIBLE);
         upload.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * opens the file chooser
+     */
     private void openFileChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -116,6 +167,12 @@ public class BottomSheet extends BottomSheetDialogFragment {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+    /**
+     * Called when an activity you launched exits
+     * @param requestCode The integer request code originally supplied to startActivityForResult()
+     * @param resultCode The integer result code returned by the child activity through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

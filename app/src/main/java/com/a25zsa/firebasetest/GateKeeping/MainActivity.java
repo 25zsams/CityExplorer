@@ -18,17 +18,44 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * the main activity
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * The User.
+     */
     EditText user;
+    /**
+     * The Password
+     */
     EditText pass;
+    /**
+     * The Sign in button
+     */
     Button signIn;
+    /**
+     * The Sign up button
+     */
     Button signUp;
+    /**
+     * The Guest button
+     */
     Button guest;
+    /**
+     * The Firebase database reference
+     */
     DatabaseReference firebase;
+    /**
+     * The Firebase data.
+     */
     FirebaseDatabase firebaseData;
 
-
+    /**
+     * Called when the activity is starting
+     * @param savedInstanceState contains the data it most recently supplied in onSaveInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         //FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
     }
 
+    /**
+     * verifies the user login
+     */
     private void verifyLogIn(){
         Log.d("Firebase", "start verifyLogIn");
         final String checkUser = user.getText().toString().trim();
@@ -110,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Firebase", "start LogInEnd");
     }
 
+    /**
+     * verifies the new user
+     */
     private void verifiyNewUser(){
         final String checkUser = user.getText().toString().trim();
         final String checkPass = pass.getText().toString().trim();

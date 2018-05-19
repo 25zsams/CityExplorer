@@ -18,15 +18,37 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * this class takes care of user login
+ */
 public class LogIn extends AppCompatActivity {
 
 
+    /**
+     * The User.
+     */
     EditText user;
+    /**
+     * The Password
+     */
     EditText pass;
+    /**
+     * The Sign in.
+     */
     Button signIn;
+    /**
+     * The Back button.
+     */
     Button backButton;
+    /**
+     * The Firebase database reference.
+     */
     DatabaseReference firebase;
 
+    /**
+     * Called when the activity is starting
+     * @param savedInstanceState contains the data it most recently supplied in onSaveInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +76,9 @@ public class LogIn extends AppCompatActivity {
 
     }
 
-
+    /**
+     * verifies user login
+     */
     private void verifyLogIn(){
         Log.d("Firebase", "start verifyLogIn");
         final String checkUser = user.getText().toString().trim();

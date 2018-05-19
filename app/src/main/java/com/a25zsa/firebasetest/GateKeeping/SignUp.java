@@ -17,16 +17,41 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * this class takes care of new user sign up
+ */
 public class SignUp extends AppCompatActivity {
 
 
+    /**
+     * The User.
+     */
     EditText user;
+    /**
+     * The Password
+     */
     EditText pass;
+    /**
+     * confirm password field
+     */
     EditText confirmPass;
+    /**
+     * The Sign up button
+     */
     Button signUp;
+    /**
+     * The Back button.
+     */
     Button backButton;
+    /**
+     * The Firebase database reference
+     */
     DatabaseReference firebase;
 
+    /**
+     * Called when the activity is starting
+     * @param savedInstanceState contains the data it most recently supplied in onSaveInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +79,9 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-
+    /**
+     * verifies the new user
+     */
     private void verifiyNewUser(){
         final String checkUser = user.getText().toString().trim();
         final String checkPass = pass.getText().toString().trim();
